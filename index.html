@@ -1,0 +1,202 @@
+<html>
+<head>
+<title>Who Made Me A Bingo Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<style type="text/css">
+html, body {
+  -webkit-print-color-adjust: exact; 
+  background-color: rgb(51, 51, 51);
+  color: rgba(235, 236, 240, 0.8);
+  font: 1rem 'Playfair Display', sans-serif;
+  text-align: center;
+}
+#container {
+   background-color: #fff;
+   overflow: auto;
+   max-width: 900px;
+   margin: 10px auto;
+   padding: 30px 0;
+}
+h1 {
+   font-weight: norm;
+   font-size: min(30vw, 80px);
+   color: transparent;
+   background-clip: text;
+   background-image: linear-gradient(#fff, #fc0);
+   text-stroke: 1px #FC0;
+   -webkit-text-stroke: 1px #fc0;
+   text-shadow: 1px 0 10px #FC0;
+}
+h1 span {
+   display: block;
+   padding: 0;
+   margin: 0 auto;
+   line-height: 90%;
+}
+h1 span:nth-child(even) {
+   font-size: 70%;
+}
+table {
+  margin: 15px auto;
+  border-collapse: collapse;
+  vertical-align: center;
+  text-align: center;
+  background-color: rgb(255,255,255);
+  color: rgba(0,0,0);
+  z-index: -1;
+}
+tbody {
+   width: 700px;
+}
+td {
+  width: 140px;
+  height: 140px;
+  border: 1px solid black;
+  font: 1rem 'Playfair Display', sans-serif;
+}
+#middle {
+  background-color: #000;
+  color: #fff;
+}
+.selected {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.selected::after {
+  content: "X";
+  opacity: 50%;
+  position: absolute;
+  top: -45px;
+  left: 0;
+  color: #f00;
+  z-index: 0;
+  font: 210px Arial, sans-serif;
+}
+</style>
+
+</head>
+<body>
+<div id="container">
+   <h1 id="title"><span>Who Made</span><span>Me A</span><span>Bingo Card?!</span></h1>
+   <table>
+   <tbody id="tableBody">
+   </tbody>
+   </table>
+</div>
+<footer>
+   (Click to select a box, refresh for a new board)
+</footer>
+</body>
+
+<script type="text/javascript">
+var titles = new Array(
+   ["Who Made", "me a", "Bingo Card"],
+   ["What it Takes", "to be a", "Bingo Card"],
+   ["The Lady", "and her", "Bingo Card"],
+   ["The Villain's", "Bingo Card"],
+   ["I was Born", "a Bingo Card"],
+   ["I Chose this", "Bingo Card"],
+   ["A Bingo Card", "for the", "Tyrant"],
+   ["Bingo Card", "of Another World"],
+   ["The Bingo Card", "Lives Again"],
+   ["The Villainess", "Flips the", "Bingo Card"]
+);
+var words = new Array(
+   "3d model food",
+   "Castle-nim",
+   "Horrorses",
+   "Red eyes black hair",
+   "Blue eyes white dragon/hair",
+   "Pink haired girl",
+   "Adopted brother with a crush",
+   "Blond crown prince",
+   "Duke of the north",
+   "Luxurious bath",
+   "Tea Party drama",
+   "Buying Everything from here to there",
+   "Obsessed with sweets",
+   "Maid slapping",
+   "Loyal freckled maid",
+   "Tripping over thin air",
+   "Contract relationship",
+   "Lead starts a business empire",
+   "Mystery terminal illness",
+   "3d glasses & popcorn",
+   "Evil stepmom",
+   "Sex marathon",
+   "Hair sniffing",
+   "Ribbon-covered dress",
+   "Amnesia",
+   "Moldy bread",
+   "Slave rescue",
+   "Concubines/Multiple Wives",
+   "Overworked bureaucrat/aide",
+   "Piles of Paperwork",
+   "Cooking Korean/Japanese food in a pseudo-European world",
+   "Evil church",
+   "Hot information guild leader",
+   "I didn't think they could make an expression like that!",
+   "Swordsman aura",
+   "Innovation in Farming",
+   "Faceless Gossipers",
+   "HUGE bed",
+   "Baby ending"
+);
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+function fillBingoCard(words) {
+   var tableBody = document.getElementById("tableBody");
+   for (var i = 0; i < 5; i++) {
+      var row = document.createElement("tr");
+      for (var j = 0; j < 5; j++) {
+         var cell = document.createElement("td");
+         if (i == 2 && j == 2) {
+            cell.appendChild(document.createTextNode("Wish Fulfillment"));
+            cell.id = "middle";
+         } else {
+            cell.appendChild(document.createTextNode(words[i*5+j]));
+         }
+         row.appendChild(cell);
+      }
+      tableBody.appendChild(row);
+   }
+}
+
+function addTitle(titles) {
+   const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+   const randomColor = 'hsla(' + (Math.random() * 360) + ', 100%, 50%, 1)';
+   document.title = randomTitle.join(" ");
+   const titleH1 = document.getElementById('title');
+   titleH1.innerHTML = randomTitle.map(x=>`<span>${x}</span>`).join("");
+   const custom_style={
+    display: "block",
+    color: "red"
+}
+   titleH1.style = `background-image: linear-gradient(#fff, ${randomColor}); text-stroke: 1px ${randomColor}; -webkit-text-stroke: 1px ${randomColor}; text-shadow: 1px 0 10px ${randomColor}`;
+}
+
+window.onload = function() {
+   shuffleArray(words);
+   fillBingoCard(words);
+   addTitle(titles);
+
+    var anchors = document.getElementsByTagName('td');
+    for(var i = 0; i < anchors.length; i++) {
+        var anchor = anchors[i];
+        anchor.onclick = function() {
+            this.classList.toggle('selected');
+        }
+    }
+}
+</script>
+</html>
