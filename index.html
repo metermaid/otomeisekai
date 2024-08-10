@@ -75,6 +75,21 @@ td {
   z-index: 0;
   font: 210px Arial, sans-serif;
 }
+@media print {
+   #container {
+      padding: 0;
+   }
+   h1 {
+      color: #000;
+      text-stroke: unset !important;
+      -webkit-text-stroke: unset !important;
+      text-shadow: none !important;
+      margin: 0;
+   }
+   footer {
+      display: none;
+   }
+}
 </style>
 
 </head>
